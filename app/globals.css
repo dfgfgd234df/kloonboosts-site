@@ -1,0 +1,89 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  background: #020315;
+  overflow-x: hidden !important;
+}
+
+.bounce {
+  animation: bounceAni2 4s ease infinite;
+}
+
+.bounce2 {
+  animation: bounceAni 4s ease infinite;
+}
+
+@keyframes bounceAni {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  25% {
+    transform: translateY(-15px);
+  }
+  50% {
+    transform: translateY(0);
+  }
+  75% {
+    transform: translateY(-15px);
+  }
+}
+
+@keyframes bounceAni2 {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-15px);
+  }
+  50% {
+    transform: translateX(0);
+  }
+  75% {
+    transform: translateX(-7px);
+  }
+}
+
+::-webkit-scrollbar {
+  background: 0 0;
+  width: 7px
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 9999999999px;
+  background: rgb(37 99 235 / var(--tw-bg-opacity, 1)) !important;
+  color: #fff
+}
+
+.products-wrap {
+  margin-bottom: 30px !important;
+}
+
+.filter-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #1d1d2d;
+  width: fit-content;
+  margin: auto;
+  border-radius: 10px;
+  overflow: hidden;
+  padding: 10px 15px 10px 15px;
+  gap: 10px;
+}
+
+.filter-buttons button {
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  background: none;
+  color: white;
+  transition: all 0.3s ease !important;
+}
+
+.filter-buttons button:hover,
+.filter-buttons button.active {
+  background: rgb(37 99 235 / var(--tw-bg-opacity, 1));;
+  color: #fff;
+}
