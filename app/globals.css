@@ -87,3 +87,13 @@ body {
   background: rgb(37 99 235 / var(--tw-bg-opacity, 1));;
   color: #fff;
 }
+
+.trustpilot-wrapper-hero {
+  grid-column-gap: .5rem;
+  grid-row-gap: .5rem;
+  color: #fff;
+  align-items: center;
+  line-height: 20px;
+  display: flex;
+}
+

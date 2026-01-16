@@ -72,6 +72,10 @@ export function FAQ() {
       answer: "We only accept all cryptocurrencies as well as Binance pay and PayPal."
     },
     {
+      question: "How do I pay using PayPal?",
+      answer: "To pay using PayPal please open a ticket in our Discord server."
+    },
+    {
       question: "I have an issue with my order, what do I do?",
       answer: "You can contact our Support center on Discord."
     },

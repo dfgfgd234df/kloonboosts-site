@@ -38,7 +38,7 @@ export function Navbar() {
         <div className="ml-3 flex items-center justify-center">
           <img draggable="false" src="logo.png" className="w-8 z-20" />
           <a href="/" className="text-white text-[1.15rem] ml-4 font-medium">
-          Kloon<span className="text-blue-600">boosts</span>
+            Kloon<span className="text-blue-600">boosts</span>
           </a>
         </div>
         <div className="md:flex flex-1 justify-center space-x-6 hidden">
@@ -96,11 +96,18 @@ export function Navbar() {
         </div>
         <div className="flex flex-row space-x-6">
           <a
-            href="https://discord.gg/kloonservices"
+            href="https://discord.gg/CUY3SY8bEU"
             target="_blank"
             className="hover:-translate-y-0.5 duration-300"
           >
             <img src="discord.png" className="h-5" />
+          </a>
+          <a
+            href="https://t.me/kloonservices"
+            target="_blank"
+            className="hover:-translate-y-0.5 duration-300"
+          >
+            <img src="telegram.svg" className="h-5" />
           </a>
         </div>
       </div>

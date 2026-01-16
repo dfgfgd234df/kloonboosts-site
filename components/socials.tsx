@@ -33,10 +33,21 @@ function Socials() {
     <div className="flex flex-col items-center justify-center mx-auto mb-10 mt-40">
       <Element name="contact"></Element>
       <div className="flex flex-col md:flex-row items-center justify-center space-y-4 md:space-y-0 md:space-x-10">
-        <a href="https://discord.gg/kloonservices" target="_blank">
+        <a href="https://discord.gg/CUY3SY8bEU" target="_blank">
         <button className="bg-[#2563eb] hover:-translate-y-2 duration-500 px-10 py-4 text-white flex items-center justify-center space-x-4 rounded-lg group">
           <img src="discord.png" alt="Discord Icon" className="h-5" />
           <span>Discord</span>
+          <img
+            src="arrow1.png"
+            alt="Arrow Icon"
+            className="h-4 transform transition-transform group-hover:translate-x-1 duration-500"
+          />
+        </button>
+        </a>
+        <a href="https://t.me/kloonservices" target="_blank">
+        <button className="bg-[#24a1de] hover:-translate-y-2 duration-500 px-10 py-4 text-white flex items-center justify-center space-x-4 rounded-lg group">
+          <img src="telegram.svg" alt="Telegram Icon" className="h-5" />
+          <span>Telegram</span>
           <img
             src="arrow1.png"
             alt="Arrow Icon"

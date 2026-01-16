@@ -122,10 +122,18 @@ export function Footer() {
               <ul>
                 <li>
                   <a
-                    href="#"
+                    href="https://discord.gg/CUY3SY8bEU"
                     className="text-blue-600 duration-300 !cursor-pointer hover:text-blue-600/85"
                   >
                     Discord
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="https://t.me/kloonservices"
+                    className="text-blue-600 duration-300 !cursor-pointer hover:text-blue-600/85"
+                  >
+                    Telegram
                   </a>
                 </li>
               </ul>
@@ -201,10 +209,18 @@ export function Footer() {
                 <ul>
                   <li>
                     <a
-                      href="#"
+                      href="https://discord.gg/CUY3SY8bEU"
                       className="text-blue-600 duration-300 !cursor-pointer hover:text-blue-600/85"
                     >
                       Discord
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="https://t.me/kloonservices"
+                      className="text-blue-600 duration-300 !cursor-pointer hover:text-blue-600/85"
+                    >
+                      Telegram
                     </a>
                   </li>
                 </ul>

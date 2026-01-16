@@ -11,94 +11,157 @@ interface Product {
   category: string;
   subCategory?: string;
   title: string;
+  price: string;
+  guarantees: string[];
   sellixProductId: string;
-  comingSoon?: boolean;
 }
 
 const Pricing = () => {
   const [activeFilter, setActiveFilter] = useState<string>("boosts");
-  const [activeBoostDuration, setActiveBoostDuration] = useState<string>("1month");
+  const [activeBoostDuration, setActiveBoostDuration] =
+    useState<string>("1month");
 
   const boostProducts: Product[] = [
     {
       category: "boosts",
       subCategory: "1month",
       title: "4 Server Boosts",
-      sellixProductId: "66a16e63d146b1",
+      price: "$2.49",
+      guarantees: ["30 Days Warranty", "Instant Delivery", "Server Level 1"],
+      sellixProductId: "278603",
     },
     {
       category: "boosts",
       subCategory: "1month",
       title: "8 Server Boosts",
-      sellixProductId: "66a16e63d146b2",
+      price: "$4.99",
+      guarantees: ["30 Days Warranty", "Instant Delivery", "Server Level 2"],
+      sellixProductId: "278606",
     },
     {
       category: "boosts",
       subCategory: "1month",
       title: "14 Server Boosts",
-      sellixProductId: "66a16e63d146b3",
+      price: "$7.99",
+      guarantees: ["30 Days Warranty", "Instant Delivery", "Server Level 3"],
+      sellixProductId: "278607",
+    },
+    {
+      category: "boosts",
+      subCategory: "1month",
+      title: "30 Server Boosts",
+      price: "$17.49",
+      guarantees: ["30 Days Warranty", "Instant Delivery", "Server Level 3"],
+      sellixProductId: "278608",
     },
     {
       category: "boosts",
       subCategory: "3month",
       title: "4 Server Boosts",
-      sellixProductId: "66a15df66436d1",
+      price: "$3.99",
+      guarantees: ["90 Days Warranty", "Instant Delivery", "Server Level 1"],
+      sellixProductId: "278609",
     },
     {
       category: "boosts",
       subCategory: "3month",
       title: "8 Server Boosts",
-      sellixProductId: "66a15df66436d2",
+      price: "$7.99",
+      guarantees: ["90 Days Warranty", "Instant Delivery", "Server Level 2"],
+      sellixProductId: "278610",
     },
     {
       category: "boosts",
       subCategory: "3month",
       title: "14 Server Boosts",
-      sellixProductId: "66a15df66436d3",
+      price: "$13.99",
+      guarantees: ["90 Days Warranty", "Instant Delivery", "Server Level 3"],
+      sellixProductId: "278611",
     },
-    ...[4, 8, 14].map((amount, index) => ({
+    {
+      category: "boosts",
+      subCategory: "3month",
+      title: "30 Server Boosts",
+      price: "$29.99",
+      guarantees: ["90 Days Warranty", "Instant Delivery", "Server Level 3"],
+      sellixProductId: "278613",
+    },
+    {
       category: "boosts",
       subCategory: "1year",
-      title: `${amount} Server Boosts`,
-      sellixProductId: `66a16e4743151${index + 1}`,
-    })),
+      title: "14 Server Boosts",
+      price: "$49.99",
+      guarantees: ["365 Days Warranty", "Instant Delivery", "Server Level 3"],
+      sellixProductId: "278615",
+    },
+    {
+      category: "boosts",
+      subCategory: "1year",
+      title: "30 Server Boosts",
+      price: "$94.99",
+      guarantees: ["365 Days Warranty", "Instant Delivery", "Server Level 3"],
+      sellixProductId: "278616",
+    },
   ];
 
   const regularProducts: Product[] = [
     {
       category: "members",
       title: "Online Members",
-      sellixProductId: "66a16e9b19bcc",
+      price: "$0.99/100",
+      guarantees: ["Instant Delivery", "Realistic Members"],
+      sellixProductId: "278678",
     },
     {
       category: "members",
       title: "Offline Members",
-      sellixProductId: "66a16e90ad493",
+      price: "$0.79/100",
+      guarantees: ["Instant Delivery", "Realistic Members"],
+      sellixProductId: "278677",
     },
     {
       category: "members",
       title: "VC Bots",
-      sellixProductId: "66a16e8b48722",
+      price: "$0.49",
+      guarantees: [
+        "Instant Delivery",
+        "Realistic Members",
+        "Stays in Voice Chat",
+      ],
+      sellixProductId: "278680",
     },
     {
       category: "members",
       title: "Chat Bots",
-      sellixProductId: "66a16e8460805",
+      price: "$0.49",
+      guarantees: [
+        "Instant Delivery",
+        "Realistic Members",
+        "Talks in Chat",
+        "Interacts with Members",
+      ],
+      sellixProductId: "278681",
     },
     {
       category: "reactions",
       title: "Emoji Reaction",
-      sellixProductId: "66a16e788a67f",
+      price: "$0.99/100",
+      guarantees: ["Instant Delivery", "Custom Emoji Reactions"],
+      sellixProductId: "278682",
     },
     {
       category: "reactions",
       title: "Button Reaction",
-      sellixProductId: "66a16ebf3dc96",
+      price: "$0.99/100",
+      guarantees: ["Instant Delivery", "Custom Button Clicks"],
+      sellixProductId: "278683",
     },
   ];
 
   const allProducts = [...boostProducts, ...regularProducts];
-  const categories = Array.from(new Set(allProducts.map((item) => item.category)));
+  const categories = Array.from(
+    new Set(allProducts.map((item) => item.category))
+  );
 
   useEffect(() => {
     Events.scrollEvent.register("begin", (to, element) => {
@@ -127,9 +190,7 @@ const Pricing = () => {
         <button
           key={duration.id}
           className={`py-2 px-6 rounded-lg text-white ${
-            activeBoostDuration === duration.id
-              ? "bg-blue-600"
-              : "bg-[#1d1d2d]"
+            activeBoostDuration === duration.id ? "bg-blue-600" : "bg-[#1d1d2d]"
           }`}
           onClick={() => setActiveBoostDuration(duration.id)}
         >
@@ -174,7 +235,11 @@ const Pricing = () => {
       {activeFilter === "boosts" && renderBoostDurationTabs()}
 
       <div className="flex justify-center px-4">
-        <div className={`flex flex-wrap justify-center gap-8 ${activeFilter === "boosts" ? "max-w-[1000px]" : "max-w-[1600px]"}`}>
+        <div
+          className={`flex flex-wrap justify-center gap-8 ${
+            activeFilter === "boosts" ? "max-w-[1000px]" : "max-w-[1600px]"
+          }`}
+        >
           {activeFilter === "boosts"
             ? boostProducts
                 .filter((item) => item.subCategory === activeBoostDuration)
@@ -183,17 +248,48 @@ const Pricing = () => {
                     key={product.sellixProductId}
                     className="bg-[#1d1d2d] rounded-xl flex flex-col items-center justify-center p-6 w-[300px]"
                   >
-                    <h4 className="text-2xl text-white mt-3 font-medium">
+                    <p className="text-lg text-white/70 font-medium">
+                      {product.price}
+                    </p>
+                    <h4 className="text-2xl text-white mt-1 font-medium">
                       {product.title}
                     </h4>
                     <hr className="w-[70%] mt-4 mb-4 bg-white/30 h-[2px] border-0" />
                     <button
                       type="button"
-                      data-sellix-group={product.sellixProductId}
-                      className="hover:scale-95 duration-500 px-10 py-2 rounded-lg bg-blue-600 text-white font-medium"
+                      data-sell-store="57232"
+                      data-sell-product={product.sellixProductId}
+                      data-sell-theme=""
+                      data-sell-darkmode="true"
+                      className="hover:scale-95 duration-500 px-10 py-2 rounded-lg bg-blue-600 text-white font-medium mb-4"
                     >
                       Purchase Now
                     </button>
+                    <div className="flex flex-col items-center w-full">
+                      {product.guarantees.map((guarantee, index) => (
+                        <div
+                          key={index}
+                          className="flex items-center gap-2 mb-2"
+                        >
+                          <svg
+                            className="w-5 h-5"
+                            fill="none"
+                            stroke="#2563eb"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M5 13l4 4L19 7"
+                            />
+                          </svg>
+                          <span className="text-white/80 text-sm">
+                            {guarantee}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 ))
             : regularProducts
@@ -203,17 +299,48 @@ const Pricing = () => {
                     key={product.sellixProductId}
                     className="bg-[#1d1d2d] rounded-xl flex flex-col items-center justify-center p-6 w-[300px]"
                   >
-                    <h4 className="text-2xl text-white mt-3 font-medium">
+                    <p className="text-lg text-white/70 font-medium">
+                      {product.price}
+                    </p>
+                    <h4 className="text-2xl text-white mt-1 font-medium">
                       {product.title}
                     </h4>
                     <hr className="w-[70%] mt-4 mb-4 bg-white/30 h-[2px] border-0" />
                     <button
-                      type="button"
-                      data-sellix-group={product.sellixProductId}
-                      className="hover:scale-95 duration-500 px-10 py-2 rounded-lg bg-blue-600 text-white font-medium"
+                    type="button"
+                    data-sell-store="57232"
+                    data-sell-product={product.sellixProductId}
+                    data-sell-theme=""
+                    data-sell-darkmode="true"
+                      className="hover:scale-95 duration-500 px-10 py-2 rounded-lg bg-blue-600 text-white font-medium mb-4"
                     >
                       Purchase Now
                     </button>
+                    <div className="flex flex-col items-center w-full">
+                      {product.guarantees.map((guarantee, index) => (
+                        <div
+                          key={index}
+                          className="flex items-center gap-2 mb-2"
+                        >
+                          <svg
+                            className="w-5 h-5"
+                            fill="none"
+                            stroke="#2563eb"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M5 13l4 4L19 7"
+                            />
+                          </svg>
+                          <span className="text-white/80 text-sm">
+                            {guarantee}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 ))}
         </div>
@@ -223,24 +350,94 @@ const Pricing = () => {
         and more...
       </p>
       <div className="flex-row gap-4 hidden md:flex justify-center mx-auto mt-10">
-        <img src="payment/pp.png" className="h-10" draggable="false" alt="PayPal" />
-        <img src="payment/tether.png" className="h-10" draggable="false" alt="Tether" />
-        <img src="payment/usdc.png" className="h-10" draggable="false" alt="USDC" />
-        <img src="payment/btc.png" className="h-10" draggable="false" alt="Bitcoin" />
-        <img src="payment/eth.png" className="h-10" draggable="false" alt="Ethereum" />
-        <img src="payment/ltc.png" className="h-10" draggable="false" alt="Litecoin" />
-        <img src="payment/bnb.png" className="h-10" draggable="false" alt="BNB" />
+        <img
+          src="payment/pp.png"
+          className="h-10"
+          draggable="false"
+          alt="PayPal"
+        />
+        <img
+          src="payment/tether.png"
+          className="h-10"
+          draggable="false"
+          alt="Tether"
+        />
+        <img
+          src="payment/usdc.png"
+          className="h-10"
+          draggable="false"
+          alt="USDC"
+        />
+        <img
+          src="payment/btc.png"
+          className="h-10"
+          draggable="false"
+          alt="Bitcoin"
+        />
+        <img
+          src="payment/eth.png"
+          className="h-10"
+          draggable="false"
+          alt="Ethereum"
+        />
+        <img
+          src="payment/ltc.png"
+          className="h-10"
+          draggable="false"
+          alt="Litecoin"
+        />
+        <img
+          src="payment/bnb.png"
+          className="h-10"
+          draggable="false"
+          alt="BNB"
+        />
       </div>
       <div className="flex-row gap-4 md:hidden flex justify-center mx-auto mt-10">
-        <img src="payment/pp.png" className="h-10" draggable="false" alt="PayPal" />
-        <img src="payment/tether.png" className="h-10" draggable="false" alt="Tether" />
-        <img src="payment/usdc.png" className="h-10" draggable="false" alt="USDC" />
-        <img src="payment/btc.png" className="h-10" draggable="false" alt="Bitcoin" />
+        <img
+          src="payment/pp.png"
+          className="h-10"
+          draggable="false"
+          alt="PayPal"
+        />
+        <img
+          src="payment/tether.png"
+          className="h-10"
+          draggable="false"
+          alt="Tether"
+        />
+        <img
+          src="payment/usdc.png"
+          className="h-10"
+          draggable="false"
+          alt="USDC"
+        />
+        <img
+          src="payment/btc.png"
+          className="h-10"
+          draggable="false"
+          alt="Bitcoin"
+        />
       </div>
       <div className="flex-row gap-4 md:hidden flex justify-center mx-auto mt-5">
-        <img src="payment/eth.png" className="h-10" draggable="false" alt="Ethereum" />
-        <img src="payment/ltc.png" className="h-10" draggable="false" alt="Litecoin" />
-        <img src="payment/bnb.png" className="h-10" draggable="false" alt="BNB" />
+        <img
+          src="payment/eth.png"
+          className="h-10"
+          draggable="false"
+          alt="Ethereum"
+        />
+        <img
+          src="payment/ltc.png"
+          className="h-10"
+          draggable="false"
+          alt="Litecoin"
+        />
+        <img
+          src="payment/bnb.png"
+          className="h-10"
+          draggable="false"
+          alt="BNB"
+        />
       </div>
       <div className="w-[20rem] h-[20rem] rounded-full blur-[200px] absolute mt-52 right-1 -left-52 bg-[#6583e3]" />
     </div>
