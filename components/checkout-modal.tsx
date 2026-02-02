@@ -111,6 +111,25 @@ export default function CheckoutModal({
                 },
               }),
             });
+            
+            // Send email notification
+            await fetch("/api/email/send", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                type: "paid",
+                email,
+                invoiceData: {
+                  id: ltcInvoice.invoice_id,
+                  email,
+                  paymentMethod: "LTC",
+                  product: product.title,
+                  serverInvite,
+                  amount: product.price,
+                  txid: data.txid,
+                },
+              }),
+            });
           } catch (error) {
             console.error("Failed to update invoice:", error);
           }
@@ -205,6 +224,13 @@ export default function CheckoutModal({
             body: JSON.stringify({ type: "created", invoiceData }),
           }).catch(console.error);
           
+          // Send email notification
+          fetch("/api/email/send", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ type: "created", email, invoiceData }),
+          }).catch(console.error);
+          
           window.location.href = data.checkoutUrl;
         } else {
           throw new Error(data.error || "Failed to create checkout");
@@ -248,6 +274,13 @@ export default function CheckoutModal({
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ type: "created", invoiceData }),
+          }).catch(console.error);
+          
+          // Send email notification
+          fetch("/api/email/send", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ type: "created", email, invoiceData }),
           }).catch(console.error);
           
           setLtcInvoice(data);
