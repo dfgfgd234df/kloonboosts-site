@@ -93,6 +93,13 @@ export function Navbar() {
           >
             FAQ
           </Link>
+
+          <a
+            href="/blog"
+            className="cursor-pointer text-white hover:-translate-y-0.5 transition-all duration-300"
+          >
+            Blog
+          </a>
         </div>
         <div className="flex flex-row space-x-6">
           <a

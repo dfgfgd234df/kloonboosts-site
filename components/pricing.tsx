@@ -6,6 +6,7 @@ import {
   animateScroll as scroll,
   scrollSpy,
 } from "react-scroll";
+import CheckoutModal from "./checkout-modal";
 
 interface Product {
   category: string;
@@ -20,6 +21,13 @@ const Pricing = () => {
   const [activeFilter, setActiveFilter] = useState<string>("boosts");
   const [activeBoostDuration, setActiveBoostDuration] =
     useState<string>("1month");
+  const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+
+  const handlePurchaseClick = (product: Product) => {
+    setSelectedProduct(product);
+    setIsCheckoutOpen(true);
+  };
 
   const boostProducts: Product[] = [
     {
@@ -180,25 +188,27 @@ const Pricing = () => {
     };
   }, []);
 
-  const renderBoostDurationTabs = () => (
-    <div className="flex justify-center gap-4 mb-8">
-      {[
-        { id: "1month", label: "1 Month" },
-        { id: "3month", label: "3 Months" },
-        { id: "1year", label: "1 Year" },
-      ].map((duration) => (
-        <button
-          key={duration.id}
-          className={`py-2 px-6 rounded-lg text-white ${
-            activeBoostDuration === duration.id ? "bg-blue-600" : "bg-[#1d1d2d]"
-          }`}
-          onClick={() => setActiveBoostDuration(duration.id)}
-        >
-          {duration.label}
-        </button>
-      ))}
-    </div>
-  );
+  const renderBoostDurationTabs = () => {
+    return (
+      <div className="flex justify-center gap-4 mb-8">
+        {[
+          { id: "1month", label: "1 Month" },
+          { id: "3month", label: "3 Months" },
+          { id: "1year", label: "1 Year" },
+        ].map((duration) => (
+          <button
+            key={duration.id}
+            className={`py-2 px-6 rounded-lg text-white ${
+              activeBoostDuration === duration.id ? "bg-blue-600" : "bg-[#1d1d2d]"
+            }`}
+            onClick={() => setActiveBoostDuration(duration.id)}
+          >
+            {duration.label}
+          </button>
+        ))}
+      </div>
+    );
+  };
 
   return (
     <div>
@@ -257,10 +267,7 @@ const Pricing = () => {
                     <hr className="w-[70%] mt-4 mb-4 bg-white/30 h-[2px] border-0" />
                     <button
                       type="button"
-                      data-sell-store="57232"
-                      data-sell-product={product.sellixProductId}
-                      data-sell-theme=""
-                      data-sell-darkmode="true"
+                      onClick={() => handlePurchaseClick(product)}
                       className="hover:scale-95 duration-500 px-10 py-2 rounded-lg bg-blue-600 text-white font-medium mb-4"
                     >
                       Purchase Now
@@ -307,11 +314,8 @@ const Pricing = () => {
                     </h4>
                     <hr className="w-[70%] mt-4 mb-4 bg-white/30 h-[2px] border-0" />
                     <button
-                    type="button"
-                    data-sell-store="57232"
-                    data-sell-product={product.sellixProductId}
-                    data-sell-theme=""
-                    data-sell-darkmode="true"
+                      type="button"
+                      onClick={() => handlePurchaseClick(product)}
                       className="hover:scale-95 duration-500 px-10 py-2 rounded-lg bg-blue-600 text-white font-medium mb-4"
                     >
                       Purchase Now
@@ -440,6 +444,15 @@ const Pricing = () => {
         />
       </div>
       <div className="w-[20rem] h-[20rem] rounded-full blur-[200px] absolute mt-52 right-1 -left-52 bg-[#6583e3]" />
+
+      {/* Checkout Modal */}
+      {selectedProduct && (
+        <CheckoutModal
+          isOpen={isCheckoutOpen}
+          onClose={() => setIsCheckoutOpen(false)}
+          product={selectedProduct}
+        />
+      )}
     </div>
   );
 };
