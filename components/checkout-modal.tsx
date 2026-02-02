@@ -105,6 +105,7 @@ export default function CheckoutModal({
                   email,
                   paymentMethod: "LTC",
                   product: product.title,
+                  serverInvite,
                   amount: product.price,
                   txid: data.txid,
                 },

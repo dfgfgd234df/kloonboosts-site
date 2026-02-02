@@ -13,37 +13,36 @@ export async function POST(request: NextRequest) {
     
     if (type === 'created') {
       embed = {
-        title: '🆕 New Invoice Created',
+        title: 'Kloonboosts Payment System',
+        description: '**Order Created**',
         color: 0x3b82f6, // Blue
         fields: [
-          { name: '📧 Email', value: invoiceData.email, inline: true },
-          { name: '💳 Payment Method', value: invoiceData.paymentMethod, inline: true },
-          { name: '📦 Product', value: invoiceData.product, inline: true },
-          { name: '💰 Amount', value: `$${invoiceData.amount}`, inline: true },
-          { name: '📋 Invoice ID', value: invoiceData.id, inline: false },
-          { name: '🎮 Server Invite', value: invoiceData.serverInvite || 'N/A', inline: false },
+          { name: 'Order ID', value: invoiceData.id, inline: false },
+          { name: 'Customer Email', value: invoiceData.email, inline: false },
+          { name: 'Payment Method', value: invoiceData.paymentMethod, inline: false },
+          { name: 'Total', value: `USD ${invoiceData.amount}`, inline: false },
         ],
         timestamp: new Date().toISOString(),
-        footer: { text: 'KloonBoosts Payment System' }
       };
     } else if (type === 'paid') {
       embed = {
-        title: '✅ Invoice Paid',
+        title: 'Kloonboosts Payment System',
+        description: '**Order Completed**',
         color: 0x22c55e, // Green
         fields: [
-          { name: '📧 Email', value: invoiceData.email, inline: true },
-          { name: '💳 Payment Method', value: invoiceData.paymentMethod, inline: true },
-          { name: '📦 Product', value: invoiceData.product, inline: true },
-          { name: '💰 Amount', value: `$${invoiceData.amount}`, inline: true },
-          { name: '📋 Invoice ID', value: invoiceData.id, inline: false },
+          { name: 'Product', value: invoiceData.product, inline: false },
+          { name: 'Permanent Server Invite Link', value: invoiceData.serverInvite || 'N/A', inline: false },
+          { name: 'Value', value: `$${invoiceData.amount}`, inline: true },
+          { name: 'Gateway', value: invoiceData.paymentMethod, inline: true },
+          { name: 'Order ID', value: invoiceData.id, inline: false },
+          { name: 'Customer Email', value: invoiceData.email, inline: false },
         ],
         timestamp: new Date().toISOString(),
-        footer: { text: 'KloonBoosts Payment System' }
       };
       
       if (invoiceData.txid) {
         embed.fields.push({
-          name: '🔗 Transaction',
+          name: 'Transaction',
           value: `[View on BlockCypher](https://live.blockcypher.com/ltc/tx/${invoiceData.txid})`,
           inline: false
         });
