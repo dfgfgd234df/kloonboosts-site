@@ -1,15 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
 import Whop from "@whop/sdk";
 
-const whop = new Whop({
-  apiKey: process.env.WHOP_API_KEY!,
-});
-
 const COMPANY_ID = "biz_9lvWcOFvGki65u";
 const PRODUCT_ID = "prod_BKnJYQDEf6IpH";
 
 export async function POST(req: NextRequest) {
   try {
+    // Initialize Whop client at runtime
+    const whop = new Whop({
+      apiKey: process.env.WHOP_API_KEY!,
+    });
+
     const { email, serverInvite, productTitle, price } = await req.json();
 
     // Extract numeric price from string like "$4.99"
