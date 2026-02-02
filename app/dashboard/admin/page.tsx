@@ -218,20 +218,20 @@ export default function AdminDashboard() {
                   <th className="text-left p-4 text-sm font-semibold text-zinc-400">Product</th>
                   <th className="text-left p-4 text-sm font-semibold text-zinc-400">Method</th>
                   <th className="text-left p-4 text-sm font-semibold text-zinc-400">Amount</th>
-                 paginatedInvoices.length === 0 ? (
+                  <th className="text-left p-4 text-sm font-semibold text-zinc-400">Status</th>
+                  <th className="text-left p-4 text-sm font-semibold text-zinc-400">Date</th>
+                  <th className="text-left p-4 text-sm font-semibold text-zinc-400">Server</th>
+                </tr>
+              </thead>
+              <tbody>
+                {paginatedInvoices.length === 0 ? (
                   <tr>
                     <td colSpan={8} className="text-center p-8 text-zinc-500">
                       No invoices found. Payments will appear here once customers make purchases.
                     </td>
                   </tr>
                 ) : (
-                  paginatcolSpan={8} className="text-center p-8 text-zinc-500">
-                      No invoices found. Payments will appear here once customers make purchases.
-                    </td>
-                  </tr>
-                ) : (
-                {filteredInvoices.length > 0 ? (
-                  filteredInvoices.map((invoice) => (
+                  paginatedInvoices.map((invoice) => (
                     <tr 
                       key={invoice.id} 
                       onClick={() => setSelectedInvoice(invoice)}
@@ -265,8 +265,7 @@ export default function AdminDashboard() {
                       </td>
                     </tr>
                   ))
-                ) : (
-                 }
+                )}
               </tbody>
             </table>
           </div>
