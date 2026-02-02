@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { X, ExternalLink } from "lucide-react";
@@ -32,12 +32,7 @@ export default function AdminDashboard() {
   const [searchQuery, setSearchQuery] = useState("");
   const itemsPerPage = 10;
 
-  useEffect(() => {
-    // Check authentication via API (HttpOnly cookies can't be read by JS)
-    checkAuth();
-  }, [router]);
-
-  const checkAuth = async () => {
+  const checkAuth = useCallback(async () => {
     try {
       const response = await fetch("/api/auth/verify");
       const data = await response.json();
@@ -52,7 +47,12 @@ export default function AdminDashboard() {
     } catch (error) {
       router.push("/dashboard");
     }
-  };
+  }, [router]);
+
+  useEffect(() => {
+    // Check authentication via API (HttpOnly cookies can't be read by JS)
+    checkAuth();
+  }, [checkAuth]);
 
   const loadInvoices = async () => {
     try {
