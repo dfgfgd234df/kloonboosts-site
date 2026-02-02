@@ -2,7 +2,7 @@ import { MetadataRoute } from 'next'
 import { blogPosts } from '@/lib/blog-data'
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://kloonboosts.vercel.app'
+  const baseUrl = 'https://kloonboosts.com'
   
   // Main pages
   const routes = ['', '/blog'].map((route) => ({

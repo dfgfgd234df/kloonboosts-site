@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: '/',
       disallow: '/api/',
     },
-    sitemap: 'https://kloonboosts.vercel.app/sitemap.xml',
+    sitemap: 'https://kloonboosts.com/sitemap.xml',
   }
 }
