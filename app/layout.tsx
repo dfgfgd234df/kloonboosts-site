@@ -53,13 +53,15 @@ export default function RootLayout({
   return (
     <html lang="en" className="!overflow-x-hidden">
             <head>
+        <link rel="preconnect" href="https://cdn.sellix.io" />
+        <link rel="preconnect" href="https://cdn.sell.app" />
+        <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com" />
+        <link rel="dns-prefetch" href="https://unpkg.com" />
+        <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
+        
         <link href="logo.png" rel="shortcut icon" type="image/x-icon" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta property="og:image" content="/logo.png" />
-        <Script
-          src="https://cdn.sell.app/embed/script.js"
-          type="module"
-        ></Script>  
 
         {/* Structured Data for Rich Snippets */}
         <script
@@ -81,25 +83,6 @@ export default function RootLayout({
           }}
         />
 
-        {/* External Scripts */}
-        <script src="https://cdn.sellix.io/static/js/embed.js" defer></script>
-        <script
-          src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"
-          defer
-        ></script>
-        <script
-          src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.min.js"
-          defer
-        ></script>
-        <script src="https://unpkg.com/aos@2.3.1/dist/aos.js" defer></script>
-        <link
-          href="https://cdn.sellix.io/static/css/embed.css"
-          rel="stylesheet"
-        />
-        <script
-          src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"
-          defer
-        ></script>
         <meta
           name="trustpilot-one-time-domain-verification-id"
           content="e5ce5161-51ef-4937-ba52-ea6944f30f76"
@@ -107,6 +90,32 @@ export default function RootLayout({
       </head>
       <body className={outfit.className}>
         <SmoothScrolling>{children}</SmoothScrolling>
+        
+        {/* Load external scripts after content */}
+        <Script
+          src="https://cdn.sell.app/embed/script.js"
+          strategy="lazyOnload"
+        />
+        <Script
+          src="https://cdn.sellix.io/static/js/embed.js"
+          strategy="lazyOnload"
+        />
+        <Script
+          src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"
+          strategy="lazyOnload"
+        />
+        <Script
+          src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.min.js"
+          strategy="lazyOnload"
+        />
+        <Script
+          src="https://unpkg.com/aos@2.3.1/dist/aos.js"
+          strategy="lazyOnload"
+        />
+        <Script
+          src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"
+          strategy="lazyOnload"
+        />
       </body>
     </html>
   );

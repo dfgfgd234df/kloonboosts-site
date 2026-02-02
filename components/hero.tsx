@@ -1,6 +1,7 @@
   "use client";
 
   import { useEffect } from "react";
+  import Image from "next/image";
   import {
     Link,
     Button,
@@ -57,27 +58,31 @@
                 className="bg-black/[0.01] backdrop-blur border-blue-600 border mt-4 hover:scale-95 !cursor-pointer duration-500 rounded-lg px-10 py-3 text-white font-semibold text-lg flex justify-between items-center gap-4 group"
               >
                 <span className="flex-1 text-left">Purchase now</span>
-                <img
-                  src="arrow2.png"
-                  className="w-4 transform group-hover:translate-x-3 transition-transform duration-500"
+                <Image
+                  src="/arrow2.png"
+                  alt="Arrow icon"
+                  width={16}
+                  height={16}
+                  className="transform group-hover:translate-x-3 transition-transform duration-500"
+                  loading="eager"
                 />
               </Link>
               <div className="!hidden md:!block">
-              <a href="https://www.trustpilot.com/review/kloonboosts.com" target="_blank" className="trustpilot-wrapper-hero w-inline-block">
-                <div>Check us out on</div><img src="trustpilot.png" loading="lazy" alt="" className="w-40" />
+              <a href="https://www.trustpilot.com/review/kloonboosts.com" target="_blank" rel="noopener noreferrer" className="trustpilot-wrapper-hero w-inline-block">
+                <div>Check us out on</div><Image src="/trustpilot.png" alt="Trustpilot reviews" width={160} height={40} loading="eager" />
               </a></div>
-              <a href="https://www.trustpilot.com/review/kloonboosts.com" target="_blank" className="md:!hidden">
+              <a href="https://www.trustpilot.com/review/kloonboosts.com" target="_blank" rel="noopener noreferrer" className="md:!hidden">
               <div className="md:!hidden">
                 <p className="text-white">Check us out on</p>
               </div>
-              <div className="md:!hidden"><img src="trustpilot.png" className="w-40" /></div>
+              <div className="md:!hidden"><Image src="/trustpilot.png" alt="Trustpilot reviews" width={160} height={40} /></div>
               </a>
             </div>
 
             <div className="w-1/2 md:block hidden">
               <div>
-                <div>
-                  <img src="logo.png" className="w-[80%] float-right bounce" />
+                <div className="relative w-[80%] float-right">
+                  <Image src="/logo.png" alt="Kloonboosts logo" width={456} height={485} priority className="bounce" />
                 </div>
               </div>
             </div>
@@ -86,10 +91,13 @@
         <div className="h-[5rem] -mt-10 mb-20 rounded-md mx-auto flex flex-col items-center justify-center relative overflow-hidden">
         </div>
         <div className="items-center bounce2 mx-auto flex mt-20 md:mt-2 justify-center relative">
-          <img src="arrow1.png" className="w-20 rotate-90 opacity-5" />
-          <img
-            src="arrow1.png"
-            className="w-6 rotate-90 opacity-100 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+          <Image src="/arrow1.png" alt="" width={80} height={80} className="rotate-90 opacity-5" />
+          <Image
+            src="/arrow1.png"
+            alt="Scroll down"
+            width={24}
+            height={24}
+            className="rotate-90 opacity-100 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
           />
         </div>
         <div className="flex justify-center mx-auto text-center">

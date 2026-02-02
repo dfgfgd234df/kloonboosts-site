@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import Image from "next/image";
 import {
   Link,
   Button,
@@ -36,7 +37,7 @@ export function Navbar() {
     <nav className="py-4 mt-2 top-0 w-full !z-50">
       <div className="w-[90%] 2xl:w-[60%] mt-6 rounded-full bg-white/10 p-4 px-8 md:px-12 border border-white/15 z-30 mx-auto flex items-center justify-between">
         <div className="ml-3 flex items-center justify-center">
-          <img draggable="false" src="logo.png" className="w-8 z-20" />
+          <Image draggable={false} src="/logo.png" alt="Kloonboosts logo" width={32} height={32} className="z-20" />
           <a href="/" className="text-white text-[1.15rem] ml-4 font-medium">
             Kloon<span className="text-blue-600">boosts</span>
           </a>
@@ -105,16 +106,18 @@ export function Navbar() {
           <a
             href="https://discord.gg/CUY3SY8bEU"
             target="_blank"
+            rel="noopener noreferrer"
             className="hover:-translate-y-0.5 duration-300"
           >
-            <img src="discord.png" className="h-5" />
+            <Image src="/discord.png" alt="Discord" width={20} height={20} />
           </a>
           <a
             href="https://t.me/kloonservices"
             target="_blank"
+            rel="noopener noreferrer"
             className="hover:-translate-y-0.5 duration-300"
           >
-            <img src="telegram.svg" className="h-5" />
+            <Image src="/telegram.svg" alt="Telegram" width={20} height={20} />
           </a>
         </div>
       </div>

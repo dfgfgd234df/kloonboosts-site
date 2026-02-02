@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect } from "react";
+import Image from "next/image";
 import {
   Element,
   Events,
@@ -35,7 +36,7 @@ function Features() {
       <div className="w-[20rem] h-[20rem] md:block hidden rounded-full blur-[200px] absolute bg-[#6583e3] left-[1800px]"></div>
       <div className="mt-32 grid grid-cols-1 space-y-10 md:space-y-0 lg:grid-cols-4 mx-auto justify-center gap-8">
         <div className="w-[250px] hover:-translate-y-2 duration-500 flex flex-col justify-start items-center h-[330px] bg-[#1d1d2d] !z-50 rounded-xl">
-          <img src="support.png" className="w-14 mb-2 -mt-8" />
+          <Image src="/support.png" alt="24/7 Customer Support" width={56} height={56} className="mb-2 -mt-8" />
           <div className="bg-blue-600 mt-4 rounded-md py-2 text-white font-semibold text-lg w-[70%] text-center">
             24/7 Support
           </div>
@@ -49,7 +50,7 @@ function Features() {
           </p>
         </div>
         <div className="w-[250px] hover:-translate-y-2 duration-500 flex flex-col justify-start items-center h-[330px] bg-[#1d1d2d] !z-50 rounded-xl">
-          <img src="rush.png" className="w-14 mb-2 -mt-8" />
+          <Image src="/rush.png" alt="Fast Delivery Service" width={56} height={56} className="mb-2 -mt-8" />
           <div className="bg-blue-600 mt-4 rounded-md py-2 text-white font-semibold text-lg w-[70%] text-center">
             Fast Delivery
           </div>
@@ -63,7 +64,7 @@ function Features() {
           </p>
         </div>
         <div className="w-[250px] hover:-translate-y-2 duration-500 flex flex-col justify-start items-center h-[330px] bg-[#1d1d2d] !z-50 rounded-xl">
-          <img src="guarantee.png" className="w-14 mb-2 -mt-8" />
+          <Image src="/guarantee.png" alt="100% Warranty Guarantee" width={56} height={56} className="mb-2 -mt-8" />
           <div className="bg-blue-600 mt-4 rounded-md py-2 text-white font-semibold text-lg w-[70%] text-center">
             100% Warranty
           </div>
@@ -77,7 +78,7 @@ function Features() {
           </p>
         </div>
         <div className="w-[250px] hover:-translate-y-2 duration-500 flex flex-col justify-start items-center h-[330px] bg-[#1d1d2d] !z-50 rounded-xl">
-          <img src="like.png" className="w-14 mb-2 -mt-8" />
+          <Image src="/like.png" alt="Legal Purchases" width={56} height={56} className="mb-2 -mt-8" />
           <div className="bg-blue-600 mt-4 rounded-md py-2 text-white font-semibold text-lg w-[70%] text-center">
             Legal Purchases
           </div>

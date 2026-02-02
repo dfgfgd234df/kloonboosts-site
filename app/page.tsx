@@ -16,7 +16,7 @@ function HomeContent() {
   const invoiceId = searchParams.get("invoice");
 
   return (
-    <div>
+    <main>
       <Navbar />
       <Hero />
       <Features />
@@ -25,7 +25,7 @@ function HomeContent() {
       <Faq />
       <Socials />
       <Footer />
-    </div>
+    </main>
   );
 }
 

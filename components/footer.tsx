@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import Image from "next/image";
 import {
   Link,
   Button,
@@ -237,9 +238,11 @@ export function Footer() {
             </p>
           </div>
         </div>
-        <img
-          src="graphic.png"
-          className="bottom-0 left-0 fixed opacity-5 -z-50"
+        <Image
+          src="/graphic.png"
+          alt=""
+          fill
+          className="bottom-0 left-0 fixed opacity-5 -z-50 object-cover"
         />
       </footer>
     </>

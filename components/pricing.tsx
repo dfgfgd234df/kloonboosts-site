@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
+import Image from "next/image";
 import {
   Element,
   Events,
@@ -235,10 +236,12 @@ const Pricing = ({ invoiceId }: PricingProps) => {
     <div>
       <div className="flex justify-center mx-auto flex-col text-center mt-32">
         <Element name="pricing" />
-        <img
-          src="r2.png"
-          className="opacity-5 mx-auto w-72 -mt-64 mb-10"
-          alt="background"
+        <Image
+          src="/r2.png"
+          alt=""
+          width={288}
+          height={288}
+          className="opacity-5 mx-auto -mt-64 mb-10"
         />
         <p className="text-xl text-white font-medium mb-10">
           Pick the <span className="text-blue-600">best price</span> for you!
@@ -375,93 +378,107 @@ const Pricing = ({ invoiceId }: PricingProps) => {
         and more...
       </p>
       <div className="flex-row gap-4 hidden md:flex justify-center mx-auto mt-10">
-        <img
-          src="payment/pp.png"
-          className="h-10"
-          draggable="false"
+        <Image
+          src="/payment/pp.png"
           alt="PayPal"
+          width={40}
+          height={40}
+          draggable={false}
         />
-        <img
-          src="payment/tether.png"
-          className="h-10"
-          draggable="false"
+        <Image
+          src="/payment/tether.png"
           alt="Tether"
+          width={40}
+          height={40}
+          draggable={false}
         />
-        <img
-          src="payment/usdc.png"
-          className="h-10"
-          draggable="false"
+        <Image
+          src="/payment/usdc.png"
           alt="USDC"
+          width={40}
+          height={40}
+          draggable={false}
         />
-        <img
-          src="payment/btc.png"
-          className="h-10"
-          draggable="false"
+        <Image
+          src="/payment/btc.png"
           alt="Bitcoin"
+          width={40}
+          height={40}
+          draggable={false}
         />
-        <img
-          src="payment/eth.png"
-          className="h-10"
-          draggable="false"
+        <Image
+          src="/payment/eth.png"
           alt="Ethereum"
+          width={40}
+          height={40}
+          draggable={false}
         />
-        <img
-          src="payment/ltc.png"
-          className="h-10"
-          draggable="false"
+        <Image
+          src="/payment/ltc.png"
           alt="Litecoin"
+          width={40}
+          height={40}
+          draggable={false}
         />
-        <img
-          src="payment/bnb.png"
-          className="h-10"
-          draggable="false"
+        <Image
+          src="/payment/bnb.png"
           alt="BNB"
+          width={40}
+          height={40}
+          draggable={false}
         />
       </div>
       <div className="flex-row gap-4 md:hidden flex justify-center mx-auto mt-10">
-        <img
-          src="payment/pp.png"
-          className="h-10"
-          draggable="false"
+        <Image
+          src="/payment/pp.png"
           alt="PayPal"
+          width={40}
+          height={40}
+          draggable={false}
         />
-        <img
-          src="payment/tether.png"
-          className="h-10"
-          draggable="false"
+        <Image
+          src="/payment/tether.png"
           alt="Tether"
+          width={40}
+          height={40}
+          draggable={false}
         />
-        <img
-          src="payment/usdc.png"
-          className="h-10"
-          draggable="false"
+        <Image
+          src="/payment/usdc.png"
           alt="USDC"
+          width={40}
+          height={40}
+          draggable={false}
         />
-        <img
-          src="payment/btc.png"
-          className="h-10"
-          draggable="false"
+        <Image
+          src="/payment/btc.png"
           alt="Bitcoin"
+          width={40}
+          height={40}
+          draggable={false}
         />
       </div>
       <div className="flex-row gap-4 md:hidden flex justify-center mx-auto mt-5">
-        <img
-          src="payment/eth.png"
-          className="h-10"
-          draggable="false"
+        <Image
+          src="/payment/eth.png"
           alt="Ethereum"
+          width={40}
+          height={40}
+          draggable={false}
         />
-        <img
-          src="payment/ltc.png"
-          className="h-10"
-          draggable="false"
+        <Image
+          src="/payment/ltc.png"
           alt="Litecoin"
+          width={40}
+          height={40}
+          draggable={false}
         />
-        <img
-          src="payment/bnb.png"
-          className="h-10"
-          draggable="false"
+        <Image
+          src="/payment/bnb.png"
           alt="BNB"
+          width={40}
+          height={40}
+          draggable={false}
         />
       </div>
       <div className="w-[20rem] h-[20rem] rounded-full blur-[200px] absolute mt-52 right-1 -left-52 bg-[#6583e3]" />
