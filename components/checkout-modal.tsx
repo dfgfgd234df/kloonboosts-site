@@ -81,6 +81,39 @@ export default function CheckoutModal({
         
         if (data.is_confirmed) {
           setPaymentStatus("confirmed");
+          
+          // Update invoice status in database
+          try {
+            await fetch("/api/invoices", {
+              method: "PATCH",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                id: ltcInvoice.invoice_id,
+                paymentStatus: "confirmed",
+                txid: data.txid,
+              }),
+            });
+            
+            // Send Discord notification
+            await fetch("/api/discord/notify", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                type: "paid",
+                invoiceData: {
+                  id: ltcInvoice.invoice_id,
+                  email,
+                  paymentMethod: "LTC",
+                  product: product.title,
+                  amount: product.price,
+                  txid: data.txid,
+                },
+              }),
+            });
+          } catch (error) {
+            console.error("Failed to update invoice:", error);
+          }
+          
           clearInterval(interval);
           setTimeout(() => {
             alert("Payment confirmed! Your order will be processed.");
@@ -113,6 +146,18 @@ export default function CheckoutModal({
     }
   };
 
+  const saveInvoice = async (invoiceData: any) => {
+    try {
+      await fetch("/api/invoices", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(invoiceData),
+      });
+    } catch (error) {
+      console.error("Failed to save invoice:", error);
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
@@ -139,6 +184,26 @@ export default function CheckoutModal({
 
         const data = await response.json();
         if (data.checkoutUrl) {
+          // Save invoice to dashboard
+          const invoiceData = {
+            id: `whop_${Date.now()}`,
+            email,
+            paymentMethod: "Whop",
+            paymentStatus: "pending",
+            product: product.title,
+            serverInvite,
+            amount: product.price,
+            timestamp: new Date().toISOString(),
+          };
+          saveInvoice(invoiceData);
+          
+          // Send Discord notification
+          fetch("/api/discord/notify", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ type: "created", invoiceData }),
+          }).catch(console.error);
+          
           window.location.href = data.checkoutUrl;
         } else {
           throw new Error(data.error || "Failed to create checkout");
@@ -164,6 +229,26 @@ export default function CheckoutModal({
         const data = await response.json();
         
         if (data.success) {
+          // Save invoice to dashboard
+          const invoiceData = {
+            id: data.invoice_id,
+            email,
+            paymentMethod: "LTC",
+            paymentStatus: "pending",
+            product: product.title,
+            serverInvite,
+            amount: product.price,
+            timestamp: new Date().toISOString(),
+          };
+          saveInvoice(invoiceData);
+          
+          // Send Discord notification
+          fetch("/api/discord/notify", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ type: "created", invoiceData }),
+          }).catch(console.error);
+          
           setLtcInvoice(data);
           setPaymentStatus("waiting for payment");
         } else {
