@@ -19,6 +19,8 @@ export async function POST(request: NextRequest) {
         fields: [
           { name: 'Order ID', value: invoiceData.id, inline: false },
           { name: 'Customer Email', value: invoiceData.email, inline: false },
+          { name: 'Product', value: invoiceData.product, inline: false },
+          { name: 'Server Invite Link', value: invoiceData.serverInvite || 'N/A', inline: false },
           { name: 'Payment Method', value: invoiceData.paymentMethod, inline: false },
           { name: 'Total', value: `USD ${invoiceData.amount}`, inline: false },
         ],

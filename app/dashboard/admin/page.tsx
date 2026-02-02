@@ -28,16 +28,26 @@ export default function AdminDashboard() {
   const [filter, setFilter] = useState<"all" | "pending" | "confirmed" | "failed">("all");
 
   useEffect(() => {
-    // Check authentication
-    const isAuthenticated = document.cookie.includes("admin_auth=true");
-    if (!isAuthenticated) {
-      router.push("/dashboard");
-      return;
-    }
-
-    // Load invoices from database
-    loadInvoices();
+    // Check authentication via API (HttpOnly cookies can't be read by JS)
+    checkAuth();
   }, [router]);
+
+  const checkAuth = async () => {
+    try {
+      const response = await fetch("/api/auth/verify");
+      const data = await response.json();
+      
+      if (!data.authenticated) {
+        router.push("/dashboard");
+        return;
+      }
+      
+      // Load invoices after auth check passes
+      loadInvoices();
+    } catch (error) {
+      router.push("/dashboard");
+    }
+  };
 
   const loadInvoices = async () => {
     try {
@@ -76,8 +86,12 @@ export default function AdminDashboard() {
     }
   };
 
-  const handleLogout = () => {
-    document.cookie = "admin_auth=; path=/; max-age=0";
+  const handleLogout = async () => {
+    try {
+      await fetch("/api/auth/logout", { method: "POST" });
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
     router.push("/dashboard");
   };
 
