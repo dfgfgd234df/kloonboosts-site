@@ -10,6 +10,7 @@ interface CheckoutModalProps {
     price: string;
     sellixProductId: string;
   };
+  existingInvoice?: any;
 }
 
 interface LTCInvoice {
@@ -25,6 +26,7 @@ export default function CheckoutModal({
   isOpen,
   onClose,
   product,
+  existingInvoice,
 }: CheckoutModalProps) {
   const [quantity, setQuantity] = useState(1);
   const [email, setEmail] = useState("");
@@ -36,6 +38,52 @@ export default function CheckoutModal({
   const [paymentStatus, setPaymentStatus] = useState<string>("");
   const [copied, setCopied] = useState(false);
   const [copiedAmount, setCopiedAmount] = useState(false);
+
+  // Load existing invoice data
+  useEffect(() => {
+    if (existingInvoice) {
+      setEmail(existingInvoice.email || "");
+      setServerInvite(existingInvoice.server_invite || "");
+      setPaymentStatus(existingInvoice.payment_status || "");
+      
+      if (existingInvoice.payment_method === "LTC" && existingInvoice.ltc_address) {
+        setSelectedPayment("litecoin");
+        // Reconstruct LTC invoice data from database
+        setLtcInvoice({
+          invoice_id: existingInvoice.id,
+          address: existingInvoice.ltc_address,
+          amount_ltc: parseFloat(existingInvoice.ltc_amount) || 0,
+          network_fee: 0,
+          total_ltc: parseFloat(existingInvoice.ltc_amount) || 0,
+          txid: existingInvoice.txid,
+        });
+      } else if (existingInvoice.payment_method === "Whop") {
+        setSelectedPayment("whop");
+      }
+    }
+  }, [existingInvoice]);
+
+  const fetchLTCInvoiceDetails = async (invoiceId: string) => {
+    try {
+      const response = await fetch("/api/ltc/check-status", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ invoice_id: invoiceId }),
+      });
+      const data = await response.json();
+      if (data.address) {
+        setLtcInvoice(prev => prev ? {
+          ...prev,
+          address: data.address,
+          amount_ltc: data.amount_ltc || 0,
+          network_fee: data.network_fee || 0,
+          total_ltc: data.total_ltc || 0,
+        } : null);
+      }
+    } catch (error) {
+      console.error("Failed to fetch LTC invoice details:", error);
+    }
+  };
 
   // Reset all state when modal closes or product changes
   useEffect(() => {
@@ -213,6 +261,7 @@ export default function CheckoutModal({
             product: product.title,
             serverInvite,
             amount: product.price,
+            checkoutUrl: data.checkoutUrl,
             timestamp: new Date().toISOString(),
           };
           await saveInvoice(invoiceData);
@@ -256,7 +305,7 @@ export default function CheckoutModal({
         const data = await response.json();
         
         if (data.success) {
-          // Save invoice to dashboard
+          // Save invoice to dashboard with LTC details
           const invoiceData = {
             id: data.invoice_id,
             email,
@@ -265,6 +314,8 @@ export default function CheckoutModal({
             product: product.title,
             serverInvite,
             amount: product.price,
+            ltcAddress: data.address,
+            ltcAmount: data.total_ltc,
             timestamp: new Date().toISOString(),
           };
           await saveInvoice(invoiceData);

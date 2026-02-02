@@ -17,15 +17,36 @@ interface Product {
   sellixProductId: string;
 }
 
-const Pricing = () => {
+interface PricingProps {
+  invoiceId?: string | null;
+}
+
+const Pricing = ({ invoiceId }: PricingProps) => {
   const [activeFilter, setActiveFilter] = useState<string>("boosts");
   const [activeBoostDuration, setActiveBoostDuration] =
     useState<string>("1month");
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [existingInvoice, setExistingInvoice] = useState<any>(null);
+
+  useEffect(() => {
+    if (invoiceId) {
+      // Fetch invoice data from API
+      fetch(`/api/invoices?id=${invoiceId}`)
+        .then(res => res.json())
+        .then(data => {
+          if (data.invoice) {
+            setExistingInvoice(data.invoice);
+            setIsCheckoutOpen(true);
+          }
+        })
+        .catch(err => console.error('Failed to load invoice:', err));
+    }
+  }, [invoiceId]);
 
   const handlePurchaseClick = (product: Product) => {
     setSelectedProduct(product);
+    setExistingInvoice(null);
     setIsCheckoutOpen(true);
   };
 
@@ -446,11 +467,19 @@ const Pricing = () => {
       <div className="w-[20rem] h-[20rem] rounded-full blur-[200px] absolute mt-52 right-1 -left-52 bg-[#6583e3]" />
 
       {/* Checkout Modal */}
-      {selectedProduct && (
+      {(selectedProduct || existingInvoice) && (
         <CheckoutModal
           isOpen={isCheckoutOpen}
-          onClose={() => setIsCheckoutOpen(false)}
-          product={selectedProduct}
+          onClose={() => {
+            setIsCheckoutOpen(false);
+            setExistingInvoice(null);
+          }}
+          product={selectedProduct || {
+            title: existingInvoice?.product || "",
+            price: existingInvoice?.amount || "",
+            sellixProductId: "",
+          }}
+          existingInvoice={existingInvoice}
         />
       )}
     </div>

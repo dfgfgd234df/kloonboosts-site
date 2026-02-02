@@ -1,9 +1,41 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { sql } from '@/lib/db';
 
-// GET - Fetch all invoices
+// GET - Fetch all invoices or a single invoice by ID
 export async function GET(request: NextRequest) {
   try {
+    const { searchParams } = new URL(request.url);
+    const invoiceId = searchParams.get('id');
+
+    if (invoiceId) {
+      // Fetch single invoice
+      const result = await sql`
+        SELECT 
+          id,
+          email,
+          payment_method,
+          payment_status,
+          product,
+          server_invite,
+          amount,
+          txid,
+          ltc_address,
+          ltc_amount,
+          checkout_url,
+          created_at,
+          updated_at
+        FROM invoices
+        WHERE id = ${invoiceId}
+      `;
+
+      if (result.length === 0) {
+        return NextResponse.json({ error: 'Invoice not found' }, { status: 404 });
+      }
+
+      return NextResponse.json({ invoice: result[0] });
+    }
+
+    // Fetch all invoices
     const invoices = await sql`
       SELECT 
         id,
@@ -14,6 +46,9 @@ export async function GET(request: NextRequest) {
         server_invite,
         amount,
         txid,
+        ltc_address,
+        ltc_amount,
+        checkout_url,
         created_at,
         updated_at
       FROM invoices
@@ -30,11 +65,11 @@ export async function GET(request: NextRequest) {
 // POST - Create new invoice
 export async function POST(request: NextRequest) {
   try {
-    const { id, email, paymentMethod, paymentStatus, product, serverInvite, amount } = await request.json();
+    const { id, email, paymentMethod, paymentStatus, product, serverInvite, amount, ltcAddress, ltcAmount, checkoutUrl } = await request.json();
 
     await sql`
-      INSERT INTO invoices (id, email, payment_method, payment_status, product, server_invite, amount)
-      VALUES (${id}, ${email}, ${paymentMethod}, ${paymentStatus}, ${product}, ${serverInvite}, ${amount})
+      INSERT INTO invoices (id, email, payment_method, payment_status, product, server_invite, amount, ltc_address, ltc_amount, checkout_url)
+      VALUES (${id}, ${email}, ${paymentMethod}, ${paymentStatus}, ${product}, ${serverInvite}, ${amount}, ${ltcAddress || null}, ${ltcAmount || null}, ${checkoutUrl || null})
     `;
 
     return NextResponse.json({ success: true });

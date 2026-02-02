@@ -310,6 +310,7 @@ export default function AdminDashboard() {
             </div>
           </div>
         )}
+      </div>
 
       {/* Invoice Detail Modal */}
       {selectedInvoice && (

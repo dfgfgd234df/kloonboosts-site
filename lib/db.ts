@@ -14,6 +14,9 @@ export async function initDatabase() {
       server_invite TEXT NOT NULL,
       amount TEXT NOT NULL,
       txid TEXT,
+      ltc_address TEXT,
+      ltc_amount DECIMAL,
+      checkout_url TEXT,
       created_at TIMESTAMP DEFAULT NOW(),
       updated_at TIMESTAMP DEFAULT NOW()
     )
