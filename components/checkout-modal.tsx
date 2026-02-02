@@ -195,7 +195,7 @@ export default function CheckoutModal({
             amount: product.price,
             timestamp: new Date().toISOString(),
           };
-          saveInvoice(invoiceData);
+          await saveInvoice(invoiceData);
           
           // Send Discord notification
           fetch("/api/discord/notify", {
@@ -240,7 +240,7 @@ export default function CheckoutModal({
             amount: product.price,
             timestamp: new Date().toISOString(),
           };
-          saveInvoice(invoiceData);
+          await saveInvoice(invoiceData);
           
           // Send Discord notification
           fetch("/api/discord/notify", {

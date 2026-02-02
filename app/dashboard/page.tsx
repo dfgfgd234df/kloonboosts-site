@@ -15,13 +15,23 @@ export default function DashboardLogin() {
     setError("");
     setIsLoading(true);
 
-    // Hardcoded credentials
-    if (email === "mra88811@gmail.com" && password === "2322332Aa!") {
-      // Set auth cookie
-      document.cookie = `admin_auth=true; path=/; max-age=86400; SameSite=Strict`;
-      router.push("/dashboard/admin");
-    } else {
-      setError("Invalid email or password");
+    try {
+      const response = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.success) {
+        router.push("/dashboard/admin");
+      } else {
+        setError(data.error || "Invalid email or password");
+        setIsLoading(false);
+      }
+    } catch (error) {
+      setError("Login failed. Please try again.");
       setIsLoading(false);
     }
   };
