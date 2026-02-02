@@ -193,7 +193,7 @@ export async function POST(request: NextRequest) {
               <p style="margin: 0 0 8px 0;">Need assistance? Contact us at <a href="mailto:kloonboosts@gmail.com" style="color: #3b82f6; text-decoration: none;">kloonboosts@gmail.com</a></p>
               <div class="footer-links">
                 <a href="https://kloonboosts.com" class="footer-link">Visit Website</a>
-                <a href="https://discord.gg/kloonboosts" class="footer-link">Join Discord</a>
+                <a href="https://discord.gg/9Y6RQQYsmv" class="footer-link">Join Discord</a>
               </div>
               <p style="margin: 16px 0 0 0;">© ${new Date().getFullYear()} Kloonboosts. All rights reserved.</p>
             </div>
@@ -381,7 +381,7 @@ export async function POST(request: NextRequest) {
               <p style="margin: 0 0 8px 0;">Need assistance? Contact us at <a href="mailto:kloonboosts@gmail.com" style="color: #3b82f6; text-decoration: none;">kloonboosts@gmail.com</a></p>
               <div class="footer-links">
                 <a href="https://kloonboosts.com" class="footer-link">Visit Website</a>
-                <a href="https://discord.gg/kloonboosts" class="footer-link">Join Discord</a>
+                <a href="https://discord.gg/9Y6RQQYsmv" class="footer-link">Join Discord</a>
               </div>
               <p style="margin: 16px 0 0 0;">© ${new Date().getFullYear()} Kloonboosts. All rights reserved.</p>
             </div>
