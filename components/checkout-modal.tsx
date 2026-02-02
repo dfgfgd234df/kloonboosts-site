@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
+import Image from "next/image";
 import { X, Minus, Plus, Copy, CheckCircle } from "lucide-react";
 
 interface CheckoutModalProps {
@@ -199,7 +200,7 @@ export default function CheckoutModal({
     }, 30000); // Check every 30 seconds
 
     return () => clearInterval(interval);
-  }, [ltcInvoice, onClose]);
+  }, [ltcInvoice, onClose, email, product.price, product.title, serverInvite]);
 
   if (!isOpen) return null;
 
@@ -485,10 +486,13 @@ export default function CheckoutModal({
                 </div>
 
                 <div className="bg-zinc-950 p-4 rounded-lg border border-zinc-800 text-center">
-                  <img
+                  <Image
                     src={`/api/ltc/qr?invoice_id=${ltcInvoice.invoice_id}`}
-                    alt="QR Code"
-                    className="mx-auto w-48 h-48 bg-white p-2 rounded"
+                    alt="Litecoin payment QR code"
+                    width={192}
+                    height={192}
+                    className="mx-auto bg-white p-2 rounded"
+                    unoptimized
                   />
                   <p className="text-xs text-zinc-400 mt-2">Scan with your Litecoin wallet</p>
                 </div>

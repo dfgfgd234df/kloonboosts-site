@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 export default function DashboardLogin() {
   const [email, setEmail] = useState("");
@@ -42,7 +43,7 @@ export default function DashboardLogin() {
         <div className="bg-zinc-950 border border-zinc-800 rounded-2xl p-8 shadow-2xl">
           {/* Logo */}
           <div className="flex items-center justify-center mb-8">
-            <img src="/logo.png" className="w-12 h-12" alt="Logo" />
+            <Image src="/logo.png" alt="Kloonboosts logo" width={48} height={48} />
             <h1 className="text-2xl font-bold text-white ml-3">
               Kloon<span className="text-blue-500">boosts</span>
             </h1>

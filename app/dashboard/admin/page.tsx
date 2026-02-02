@@ -3,6 +3,7 @@
 import { useEffect, useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import { X, ExternalLink } from "lucide-react";
 
 interface Invoice {
@@ -129,7 +130,7 @@ export default function AdminDashboard() {
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
           <div className="flex items-center gap-3">
-            <img src="/logo.png" className="w-10 h-10" alt="Logo" />
+            <Image src="/logo.png" alt="Kloonboosts logo" width={40} height={40} />
             <div>
               <h1 className="text-2xl font-bold text-white">
                 Kloon<span className="text-blue-500">boosts</span> Admin
