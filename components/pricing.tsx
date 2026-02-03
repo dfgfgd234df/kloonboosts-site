@@ -138,7 +138,7 @@ const Pricing = ({ invoiceId }: PricingProps) => {
     {
       category: "members",
       title: "Online Members",
-      price: "$0.99/100",
+      price: "$1.00/100",
       guarantees: ["Instant Delivery", "Realistic Members"],
       sellixProductId: "278678",
     },
@@ -175,14 +175,14 @@ const Pricing = ({ invoiceId }: PricingProps) => {
     {
       category: "reactions",
       title: "Emoji Reaction",
-      price: "$0.99/100",
+      price: "$1.00/100",
       guarantees: ["Instant Delivery", "Custom Emoji Reactions"],
       sellixProductId: "278682",
     },
     {
       category: "reactions",
       title: "Button Reaction",
-      price: "$0.99/100",
+      price: "$1.00/100",
       guarantees: ["Instant Delivery", "Custom Button Clicks"],
       sellixProductId: "278683",
     },

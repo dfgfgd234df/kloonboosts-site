@@ -1,45 +1,114 @@
 import { NextRequest, NextResponse } from "next/server";
+import crypto from 'crypto';
+import { sql } from '@/lib/db';
 
 export async function POST(req: NextRequest) {
   try {
-    const payload = await req.json();
-    
-    // Verify webhook signature (important for security)
+    const body = await req.text();
     const signature = req.headers.get("x-whop-signature");
     
-    // TODO: Verify signature with your Whop webhook secret
-    // const webhookSecret = process.env.WHOP_WEBHOOK_SECRET;
+    // Verify webhook signature
+    if (signature) {
+      const webhookSecret = process.env.WHOP_WEBHOOK_SECRET!;
+      const computedSignature = crypto
+        .createHmac('sha256', webhookSecret)
+        .update(body)
+        .digest('hex');
+      
+      if (signature !== computedSignature) {
+        console.error('Invalid webhook signature');
+        return NextResponse.json({ error: 'Invalid signature' }, { status: 401 });
+      }
+    }
     
+    const payload = JSON.parse(body);
     console.log("Webhook received:", payload.type);
 
     // Handle different webhook events
     switch (payload.type) {
       case "payment.succeeded":
-        // Invoice is automatically created by Whop
         console.log("Payment succeeded:", payload.data);
         
-        // Extract custom metadata
-        const { serverInvite, productTitle } = payload.data.metadata || {};
-        const customerEmail = payload.data.email;
+        const customerEmail = payload.data.email || payload.data.user?.email;
         
-        // Add your custom logic here:
-        // - Send confirmation email
-        // - Deliver the boosts to the Discord server
-        // - Save to database
-        // - Send webhook to Discord bot
-        
-        console.log(`Delivering ${productTitle} to ${serverInvite} for ${customerEmail}`);
+        // Find the most recent pending Whop invoice for this email
+        const invoices = await sql`
+          SELECT * FROM invoices 
+          WHERE email = ${customerEmail}
+          AND payment_method = 'Whop' 
+          AND payment_status = 'pending'
+          ORDER BY created_at DESC 
+          LIMIT 1
+        `;
+
+        if (invoices.length > 0) {
+          const invoice = invoices[0];
+          
+          // Update invoice status
+          await sql`
+            UPDATE invoices 
+            SET payment_status = 'confirmed',
+                txid = ${payload.data.id || payload.data.payment_id || ''},
+                updated_at = NOW()
+            WHERE id = ${invoice.id}
+          `;
+
+          // Send Discord notification
+          try {
+            await fetch(process.env.NEXT_PUBLIC_BASE_URL + '/api/discord/notify', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ 
+                type: 'paid', 
+                invoiceData: {
+                  id: invoice.id,
+                  email: invoice.email,
+                  product: invoice.product,
+                  amount: invoice.amount,
+                  paymentMethod: 'Whop',
+                  serverInvite: invoice.server_invite,
+                }
+              }),
+            });
+          } catch (error) {
+            console.error('Failed to send Discord notification:', error);
+          }
+
+          // Send email notification
+          try {
+            await fetch(process.env.NEXT_PUBLIC_BASE_URL + '/api/email/send', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ 
+                type: 'paid', 
+                email: invoice.email,
+                invoiceData: {
+                  id: invoice.id,
+                  email: invoice.email,
+                  product: invoice.product,
+                  amount: invoice.amount,
+                  paymentMethod: 'Whop',
+                  serverInvite: invoice.server_invite,
+                }
+              }),
+            });
+          } catch (error) {
+            console.error('Failed to send email notification:', error);
+          }
+
+          console.log('Whop payment processed successfully:', invoice.id);
+        } else {
+          console.warn('No matching invoice found for payment:', customerEmail);
+        }
         
         break;
       
       case "payment.failed":
         console.log("Payment failed:", payload.data);
-        // Handle failed payment
         break;
       
       case "payment.refunded":
         console.log("Payment refunded:", payload.data);
-        // Handle refund
         break;
     }
 

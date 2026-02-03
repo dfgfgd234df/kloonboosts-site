@@ -204,6 +204,17 @@ export default function CheckoutModal({
 
   if (!isOpen) return null;
 
+  // Calculate total price
+  const calculateTotalPrice = () => {
+    const priceStr = product.price.replace(/[^0-9.]/g, "");
+    const basePrice = parseFloat(priceStr);
+    const total = basePrice * quantity;
+    // Ensure minimum $1.00 for Whop
+    return Math.max(1.00, total).toFixed(2);
+  };
+
+  const totalPrice = calculateTotalPrice();
+
   const copyToClipboard = (text: string, isAmount = false) => {
     navigator.clipboard.writeText(text);
     if (isAmount) {
@@ -247,7 +258,8 @@ export default function CheckoutModal({
             email,
             serverInvite,
             productTitle: product.title,
-            price: product.price,
+            price: totalPrice,
+            quantity,
           }),
         });
 
@@ -261,7 +273,7 @@ export default function CheckoutModal({
             paymentStatus: "pending",
             product: product.title,
             serverInvite,
-            amount: product.price,
+            amount: `$${totalPrice}`,
             checkoutUrl: data.checkoutUrl,
             timestamp: new Date().toISOString(),
           };
@@ -531,7 +543,8 @@ export default function CheckoutModal({
                 <div className="space-y-1">
                   <h1 className="font-bold text-white text-xl">{product.title}</h1>
                   <div className="flex flex-row gap-2 items-center">
-                    <div className="text-lg text-white font-bold">{product.price}</div>
+                    <div className="text-sm text-zinc-400">{product.price}</div>
+                    <div className="text-lg text-white font-bold">Total: ${totalPrice}</div>
                   </div>
                 </div>
                 <div className="flex flex-row items-center justify-between mt-2">
@@ -544,9 +557,13 @@ export default function CheckoutModal({
                     >
                       <Minus className="w-4 h-4" />
                     </button>
-                    <div className="flex items-center justify-center px-6 text-white min-w-[4rem] text-center">
-                      {quantity}
-                    </div>
+                    <input
+                      type="number"
+                      value={quantity}
+                      onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value) || 1))}
+                      className="flex items-center justify-center px-6 text-white min-w-[4rem] text-center bg-transparent border-none focus:outline-none"
+                      min="1"
+                    />
                     <button
                       type="button"
                       onClick={() => setQuantity(quantity + 1)}
