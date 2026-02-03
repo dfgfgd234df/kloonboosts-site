@@ -104,7 +104,18 @@ export default function CheckoutModal({
 
   // Reset state when product changes
   useEffect(() => {
-    setQuantity(1);
+    // Set appropriate minimum quantity based on product
+    const isPerHundred = product.price.includes('/100');
+    const isBot = product.title.toLowerCase().includes('bot');
+    
+    if (isPerHundred && !isBot) {
+      setQuantity(100); // Reactions and Members minimum 100
+    } else if (isBot) {
+      setQuantity(25); // Bots minimum 25
+    } else {
+      setQuantity(1);
+    }
+    
     setSelectedPayment(null);
     setIsProcessing(false);
     setShowCoupon(false);
@@ -112,7 +123,7 @@ export default function CheckoutModal({
     setPaymentStatus("");
     setCopied(false);
     setCopiedAmount(false);
-  }, [product.sellixProductId]);
+  }, [product.sellixProductId, product.title, product.price]);
 
   // Poll for payment status
   useEffect(() => {
@@ -208,12 +219,41 @@ export default function CheckoutModal({
   const calculateTotalPrice = () => {
     const priceStr = product.price.replace(/[^0-9.]/g, "");
     const basePrice = parseFloat(priceStr);
-    const total = basePrice * quantity;
+    
+    // Check if price is per 100 items (e.g., "$1.00/100")
+    const isPerHundred = product.price.includes('/100');
+    
+    let total;
+    if (isPerHundred) {
+      // $1.00 per 100 items, so divide quantity by 100
+      total = (basePrice * quantity) / 100;
+    } else {
+      total = basePrice * quantity;
+    }
+    
     // Ensure minimum $1.00 for Whop
     return Math.max(1.00, total).toFixed(2);
   };
 
   const totalPrice = calculateTotalPrice();
+  
+  // Get minimum quantity for current product
+  const getMinQuantity = () => {
+    const isPerHundred = product.price.includes('/100');
+    const isBot = product.title.toLowerCase().includes('bot');
+    const isOfflineMembers = product.title.toLowerCase().includes('offline members');
+    
+    if (isOfflineMembers) {
+      return 150; // Offline Members minimum 150
+    } else if (isPerHundred && !isBot) {
+      return 100; // Reactions and Members minimum 100
+    } else if (isBot) {
+      return 25; // Bots minimum 25
+    }
+    return 1; // Default minimum
+  };
+  
+  const minQuantity = getMinQuantity();
 
   const copyToClipboard = (text: string, isAmount = false) => {
     navigator.clipboard.writeText(text);
@@ -551,18 +591,32 @@ export default function CheckoutModal({
                   <div className="flex items-stretch rounded-md font-semibold border-2 border-zinc-800 bg-zinc-950 shadow-sm transition-all duration-200">
                     <button
                       type="button"
-                      onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                      onClick={() => setQuantity(Math.max(minQuantity, quantity - 1))}
                       className="flex items-center px-3 py-2 text-white hover:bg-zinc-900 transition-colors"
-                      disabled={quantity <= 1}
+                      disabled={quantity <= minQuantity}
                     >
                       <Minus className="w-4 h-4" />
                     </button>
                     <input
                       type="number"
                       value={quantity}
-                      onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value) || 1))}
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        if (value === '' || value === '0') {
+                          setQuantity(minQuantity);
+                        } else {
+                          const parsed = parseInt(value);
+                          setQuantity(isNaN(parsed) ? minQuantity : parsed);
+                        }
+                      }}
+                      onBlur={(e) => {
+                        const value = parseInt(e.target.value);
+                        if (isNaN(value) || value < minQuantity) {
+                          setQuantity(minQuantity);
+                        }
+                      }}
                       className="flex items-center justify-center px-6 text-white min-w-[4rem] text-center bg-transparent border-none focus:outline-none"
-                      min="1"
+                      min={minQuantity}
                     />
                     <button
                       type="button"
